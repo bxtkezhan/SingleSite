@@ -14,4 +14,4 @@ class Config:
 
 title = 'Welcome to SingleSite'
 
-article_size = 140
+article_range = (10, 140)

@@ -1,5 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{{title}}</h1>
+{% if form %}
+<form method="post" accept-charset="utf-8">
+    {{form.hidden_tag()}}
+    <p>
+    <label>{{form.post.label}}</label><br>
+    {{form.post}}
+    {% for error in form.post.errors %}
+    <span style="color:red;">[{{error}}]</span>
+    {% endfor %}
+    </p>
+    {{form.submit}}
+</form>
+{% endif %}
+{% for post in posts %}
+<p>
+    {% include "_post.html" %}
+</p>
+{% endfor %}
 {% endblock %}
