@@ -9,7 +9,7 @@
 <p>Email: {{user.email}}</p>
 {% endif %}
 {% if user.last_seen %}
-<p>Last seen on: {{user.last_seen}}</p>
+<p>Last seen on: {{moment(user.last_seen).format('LLL')}}</p>
 {% endif %}
 <p>{{user.followers.count()}} followers, {{user.followed.count()}} following.</p>
 {% if user == current_user %}
@@ -32,3 +32,6 @@
 <a href="{{next_url}}">Next page</a>
 {% endif %}
 {% endblock %}
+
+{% block script %}
+{% endblock  %}
