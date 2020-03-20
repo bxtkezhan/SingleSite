@@ -158,3 +158,10 @@ def unfollow(username):
         current_user.unfollow(user)
         db.session.commit()
     return redirect(url_for('user', username=username))
+
+
+@app.route('/read/<int:post_id>')
+@login_required
+def read(post_id):
+    post = Post.query.filter_by(id=post_id).first()
+    return render_template('read.html', post=post)

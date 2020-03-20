@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="{{url_for("user", username=post.author.username)}}">{{post.author.username}}</a><br>
+<span>At {{moment(post.timestamp).fromNow()}}</span><br>
+<div id="post_content">
+{{post.body}}
+</div>
+{% endblock %}
+
+{% block script %}
+var md = window.markdownit();
+var post = document.getElementById("post_content");
+post.innerHTML = md.render(post.innerHTML);
+{% endblock %}
