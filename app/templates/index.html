@@ -5,9 +5,16 @@
 <form method="post" accept-charset="utf-8">
     {{form.hidden_tag()}}
     <p>
-    <label>{{form.post.label}}</label><br>
-    {{form.post}}
-    {% for error in form.post.errors %}
+    <label>{{form.post_title.label}}</label><br>
+    {{form.post_title}}
+    {% for error in form.post_title.errors %}
+    <span style="color:red;">[{{error}}]</span>
+    {% endfor %}
+    </p>
+    <p>
+    <label>{{form.post_body.label}}</label><br>
+    {{form.post_body}}
+    {% for error in form.post_body.errors %}
     <span style="color:red;">[{{error}}]</span>
     {% endfor %}
     </p>

@@ -10,7 +10,7 @@ class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired(), Length(8, 24)])
     remember = BooleanField('Remember', default=False)
-    submit = SubmitField('Login')
+    submit   = SubmitField('Login')
 
 
 class RegisterForm(FlaskForm):
@@ -34,8 +34,8 @@ class RegisterForm(FlaskForm):
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     about_me = TextAreaField('About me', validators=[DataRequired(), Length(0, 128)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    submit = SubmitField('Submit')
+    email    = StringField('Email', validators=[DataRequired(), Email()])
+    submit   = SubmitField('Submit')
 
     def validate_username(self, username):
         if username.data != current_user.username:
@@ -51,5 +51,6 @@ class EditProfileForm(FlaskForm):
 
 
 class PostForm(FlaskForm):
-    post = TextAreaField('Say something', validators=[DataRequired(), Length(*config.article_range)])
-    submit = SubmitField('Submit')
+    post_title = StringField('Title', validators=[DataRequired(), Length(*config.article_title_range)])
+    post_body  = TextAreaField('Body', validators=[DataRequired(), Length(*config.article_body_range)])
+    submit     = SubmitField('Submit')

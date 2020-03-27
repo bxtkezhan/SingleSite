@@ -14,6 +14,7 @@ class Config:
 
 title = 'Welcome to SingleSite'
 
-article_range = (10, 140)
+article_title_range = (1, 32)
+article_body_range  = (32, 1024)
 
 posts_per_page = 3

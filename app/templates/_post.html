@@ -1,3 +1,6 @@
 <a href="{{url_for("user", username=post.author.username)}}">{{post.author.username}}</a>
-<a href="{{url_for("read", post_id=post.id)}}">say: {{post.body[:28]}}</a>
-<span>At {{moment(post.timestamp).fromNow()}}</span>
+<a href="{{url_for("read", post_id=post.id)}}">
+    say: <strong>{{post.title}}</strong>
+    {{post.body[:28]}}
+    At {{moment(post.timestamp).fromNow()}}
+</a>

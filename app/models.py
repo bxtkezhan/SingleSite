@@ -1,5 +1,4 @@
 from app import db
-from app import config
 from app import login
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -13,10 +12,10 @@ followers = db.Table('followers',
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(128), index=True, unique=True)
-    username = db.Column(db.String(64), index=True, unique=True)
-    password_hash = db.Column(db.String(128))
-    about_me = db.Column(db.String(128))
+    email = db.Column(db.String(), index=True, unique=True)
+    username = db.Column(db.String(), index=True, unique=True)
+    password_hash = db.Column(db.String())
+    about_me = db.Column(db.String())
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     followed = db.relationship(
@@ -59,9 +58,10 @@ def load_user(id):
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(config.article_range[1]))
+    title = db.Column(db.String())
+    body = db.Column(db.String())
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return '<post {}>'.format(self.body)
+        return '<post {}>'.format(self.title)
