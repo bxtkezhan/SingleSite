@@ -16,5 +16,9 @@ title = 'Welcome to SingleSite'
 
 article_title_range = (1, 32)
 article_body_range  = (32, 1024)
+article_categories = [
+    'python',
+    'c/c++',
+]
 
 posts_per_page = 3

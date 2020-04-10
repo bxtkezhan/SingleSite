@@ -22,8 +22,9 @@ def index():
     form = PostForm()
     if form.validate_on_submit():
         post_title = form.post_title.data
+        post_category = form.post_category.data
         post_body = form.post_body.data
-        post = Post(title=post_title, body=post_body, author=current_user)
+        post = Post(title=post_title, category=post_category, body=post_body, author=current_user)
         db.session.add(post)
         db.session.commit()
         flash('Your post is now live!')

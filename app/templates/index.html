@@ -12,6 +12,13 @@
     {% endfor %}
     </p>
     <p>
+    <label>{{form.post_category.label}}</label>
+    {{form.post_category}}
+    {% for error in form.post_category.errors %}
+    <span style="color:red;">[{{error}}]</span>
+    {% endfor %}
+    </p>
+    <p>
     <label>{{form.post_body.label}}</label><br>
     {{form.post_body}}
     {% for error in form.post_body.errors %}

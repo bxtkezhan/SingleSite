@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_login import current_user
-from wtforms.fields import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
+from wtforms.fields import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import ValidationError, DataRequired, Email, Length, EqualTo
 from .models import User
 from app import config
@@ -53,4 +53,6 @@ class EditProfileForm(FlaskForm):
 class PostForm(FlaskForm):
     post_title = StringField('Title', validators=[DataRequired(), Length(*config.article_title_range)])
     post_body  = TextAreaField('Body', validators=[DataRequired(), Length(*config.article_body_range)])
+    post_category = SelectField('Category', validators=[DataRequired()], choices=[
+        (c, c) for c in config.article_categories])
     submit     = SubmitField('Submit')
