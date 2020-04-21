@@ -1,0 +1,19 @@
+.sidenav {
+  width: 130px;
+  position: fixed;
+  z-index: 1;
+  top: 50px;
+  left: 10px;
+  border: 1px solid #999;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  display: block;
+}
+
+
+.main {
+  margin-left: 140px; /* Same width as the sidebar + left position in px */
+  padding: 0px 10px;
+}

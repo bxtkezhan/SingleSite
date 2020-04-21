@@ -56,6 +56,22 @@ def load_user(id):
     return User.query.get(int(id))
 
 
+topics = db.Table('topics',
+    db.Column('topic_id', db.Integer, db.ForeignKey('topic.id')),
+    db.Column('post_id', db.Integer, db.ForeignKey('post.id')))
+
+
+class Topic(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+    posts = db.relationship(
+        'Post', secondary=topics,
+        backref=db.backref('topics', lazy='dynamic'), lazy='dynamic')
+
+    def __repr__(self):
+        return '<topic {}>'.format(self.name)
+
+
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String())
@@ -63,6 +79,16 @@ class Post(db.Model):
     body = db.Column(db.String())
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def set_topic(self, topics_text):
+        topics_names = topics_text.split()
+        for topic_name in topics_names:
+            if Topic.query.filter_by(name=topic_name).count() == 0:
+                topic = Topic(name=topic_name)
+                db.session.add(topic)
+            else:
+                topic = Topic.query.filter_by(name=topic_name).first()
+            self.topics.append(topic)
 
     def __repr__(self):
         return '<post {}>'.format(self.title)

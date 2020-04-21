@@ -8,9 +8,10 @@
         {% else %}
         <title>Welcome to SingleSite</title>
         {% endif %}
+        <link rel="stylesheet" href="{{url_for("static", filename="css/base.css")}}" type="text/css">
     </head>
     <body>
-        <div>
+        <div class="nav">
             <a href="{{url_for("index")}}">Home</a>
             <a href="{{url_for("explore")}}">Explore</a>
             {% if current_user.is_anonymous %}
@@ -23,18 +24,23 @@
             {% endif %}
             <hr>
         </div>
-        <div>
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            <ul>
-                {% for message in messages %}
-                <li>{{message}}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            {% endwith %}
+        <div class="sidenav">
+            {% for category in categories %}
+            <a href="{{url_for("category", name=category)}}">{{category}}</a>
+            {% endfor %}
         </div>
-        <div>
+        <div class="main">
+            <div>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                    <li>{{message}}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+            </div>
             {% block content %}{% endblock %}
         </div>
     </body>

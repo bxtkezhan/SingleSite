@@ -51,8 +51,8 @@ class EditProfileForm(FlaskForm):
 
 
 class PostForm(FlaskForm):
-    post_title = StringField('Title', validators=[DataRequired(), Length(*config.article_title_range)])
-    post_body  = TextAreaField('Body', validators=[DataRequired(), Length(*config.article_body_range)])
+    post_title = StringField('Title', validators=[DataRequired(), Length(*config.post_title_range)])
+    post_body  = TextAreaField('Body', validators=[DataRequired(), Length(*config.post_body_range)])
     post_category = SelectField('Category', validators=[DataRequired()], choices=[
-        (c, c) for c in config.article_categories])
+        (c, c) for c in config.post_categories])
     submit     = SubmitField('Submit')

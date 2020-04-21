@@ -1,4 +1,4 @@
-from flask import render_template as flask_render_template, request
+from flask import render_template, request
 from flask import flash, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from app import app, config, db
@@ -7,14 +7,14 @@ from .models import User, Post
 from datetime import datetime
 
 
-def render_template(template_name, **content):
-    content['title'] = content.get('title', config.title)
-    return flask_render_template(template_name, **content)
-
 def paginate(followed_posts, page):
     return followed_posts.paginate(
         page, config.posts_per_page, False)
 
+
+@app.context_processor
+def inject_user():
+    return dict(title=config.title, categories=config.post_categories)
 
 @app.route('/', methods=['GET', 'POST'])
 @login_required
@@ -34,7 +34,7 @@ def index():
     prev_url = url_for('index', page=posts.prev_num) if posts.has_prev else None
     next_url = url_for('index', page=posts.next_num) if posts.has_next else None
     return render_template(
-        'index.html', title=config.title, form=form,
+        'index.html', form=form,
         posts=posts.items, prev_url=prev_url, next_url=next_url)
 
 
@@ -46,7 +46,7 @@ def explore():
     prev_url = url_for('explore', page=posts.prev_num) if posts.has_prev else None
     next_url = url_for('explore', page=posts.next_num) if posts.has_next else None
     return render_template(
-        'index.html', title=config.title,
+        'index.html',
         posts=posts.items, prev_url=prev_url, next_url=next_url)
 
 
@@ -102,7 +102,7 @@ def user(username):
     prev_url = url_for('user', username=username, page=posts.prev_num) if posts.has_prev else None
     next_url = url_for('user', username=username, page=posts.next_num) if posts.has_next else None
     return render_template(
-        'user.html', title=config.title, user=user,
+        'user.html', user=user,
         posts=posts.items, prev_url=prev_url, next_url=next_url)
 
 
@@ -168,3 +168,17 @@ def unfollow(username):
 def read(post_id):
     post = Post.query.filter_by(id=post_id).first()
     return render_template('read.html', post=post)
+
+
+@app.route('/category')
+@login_required
+def category():
+    name = request.args.get('name', config.post_categories[0], type=str)
+    page = request.args.get('page', 1, type=int)
+    posts = paginate(
+        Post.query.filter_by(category=name).order_by(Post.timestamp.desc()), page)
+    prev_url = url_for('category', page=posts.prev_num) if posts.has_prev else None
+    next_url = url_for('category', page=posts.next_num) if posts.has_next else None
+    return render_template(
+        'index.html', category=name,
+        posts=posts.items, prev_url=prev_url, next_url=next_url)

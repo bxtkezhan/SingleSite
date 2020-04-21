@@ -28,6 +28,9 @@
     {{form.submit}}
 </form>
 {% endif %}
+{% if category %}
+<h1>{{category}}</h1>
+{% endif %}
 {% for post in posts %}
 <p>
     {% include "_post.html" %}
